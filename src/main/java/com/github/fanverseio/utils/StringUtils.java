@@ -8,60 +8,64 @@ public class StringUtils {
 
     /**
      * Check if a string a palindrome.
+     * 
      * @param input the string to check.
      * @return true if the string is palindrome, false otherwise
      */
 
     public static boolean isPalindrome(String input) {
-        if (input == null) return false;
+        if (input == null)
+            return false;
         String reversed = new StringBuilder(input).reverse().toString();
         return input.equalsIgnoreCase(reversed);
     };
 
     /**
      * Length of Substring without repeating characters.
+     * 
      * @param input the string to check.
      * @return integer of the length of the substring
      */
 
-    public static int lengthOfSubstring(String input){
+    public static int lengthOfSubstring(String input) {
 
-        if (input == null){
+        if (input == null) {
             return 0;
         }
-        int i =0;
-        int j =0;
+        int i = 0;
+        int j = 0;
         int max = 0;
 
         HashSet<Character> hashSet = new HashSet();
 
-        while (j<input.length()){
-            if (!hashSet.contains(input.charAt(j))){
+        while (j < input.length()) {
+            if (!hashSet.contains(input.charAt(j))) {
                 hashSet.add(input.charAt(j));
                 j++;
-                max = Math.max(hashSet.size(),max);
+                max = Math.max(hashSet.size(), max);
             } else {
                 hashSet.remove(input.charAt(i));
                 i++;
             }
         }
 
-    return max;
+        return max;
 
     }
 
     /**
      * Increasing decreasing String.
+     * 
      * @param input the string to check.
      * @return string of the incresing - decreasing order
      */
 
-    public static String increasingDecreasing(String input){
-        if (input == null ) {
+    public static String increasingDecreasing(String input) {
+        if (input == null) {
             return null;
         }
 
-        if (input.isEmpty()){
+        if (input.isEmpty()) {
             return input;
         }
 
@@ -69,7 +73,7 @@ public class StringUtils {
 
         int[] charList = new int[26];
 
-        for (char c: input.toCharArray()){
+        for (char c : input.toCharArray()) {
             if (c >= 'a' && c <= 'z') { // Ensure the character is lowercase a-z
                 charList[c - 'a']++;
             } else {
@@ -82,34 +86,134 @@ public class StringUtils {
 
         boolean ascending = true;
 
-        while (sb.length() < input.length()){
+        while (sb.length() < input.length()) {
 
-            if (ascending){
+            if (ascending) {
 
-                for (int i = 0; i < 26; i++){
-                    if (charList[i] > 0){
-                        sb.append((char)(i + 'a'));
+                for (int i = 0; i < 26; i++) {
+                    if (charList[i] > 0) {
+                        sb.append((char) (i + 'a'));
+                        charList[i]--;
+                    }
+                }
+            } else {
+
+                for (int i = 25; i >= 0; i--) {
+                    if (charList[i] > 0) {
+                        sb.append((char) (i + 'a'));
                         charList[i]--;
                     }
                 }
             }
-            else{
-
-                for (int i = 25; i >= 0; i--){
-                    if (charList[i] > 0){
-                        sb.append((char)(i + 'a'));
-                        charList[i]--;
-                    }
-                }
-            }
-
 
             ascending = !ascending;
         }
 
         return sb.toString();
 
-
     };
 
+    /**
+     * camelCase to snake_case conversion.
+     * 
+     * @param input the camelCase string.
+     * @return string of the same string in snake_case
+     */
+
+    public static String camelCaseToSnakeCase(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        if (input.isEmpty()) {
+            return input;
+        }
+
+        StringBuilder sb = new StringBuilder(input.length());
+
+        for (int i = 0; i < input.length(); i++) {
+            char ch = input.charAt(i);
+
+            if (Character.isUpperCase(ch)) {
+                // Avoid leading underscore for the first character
+                if (i != 0) {
+                    sb.append('_');
+                }
+                sb.append(Character.toLowerCase(ch)); // Convert to lowercase
+            } else {
+                sb.append(ch);
+            }
+        }
+
+        return sb.toString();
+
+    }
+
+    /**
+     * snake_case to camelCase conversion.
+     * 
+     * @param input is the snake_case string.
+     * @return string in camelCase.
+     */
+
+    public static String snakeCaseToCamelCase(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        if (input.isEmpty()) {
+            return input;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        boolean toUpperCase = false;
+
+        for (int i = 0; i < input.length(); i++) {
+
+            char ch = input.charAt(i);
+            if (ch == '_') {
+                toUpperCase = true;
+            } else {
+                if (toUpperCase && i != 0) {
+                    sb.append(Character.toUpperCase(ch));
+                    toUpperCase = false;
+                } else {
+                    sb.append(ch);
+                }
+            }
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Reverse a string by words
+     * @param input string
+     * @return a string with words. Add full stop to the end.
+     */
+
+    public static String reverseSentenceWithPunctuation(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        // Remove all punctuation and trim
+        input = input.replaceAll("[^a-zA-Z\\s]", "").trim();
+        if (input.isEmpty()) {
+            return input;
+        }
+
+        // Split by one or more whitespace characters
+        String[] words = input.split("\\s+");
+        StringBuilder reversed = new StringBuilder();
+
+        for (int i = words.length - 1; i >= 0; i--) {
+            reversed.append(words[i]);
+            if (i > 0) {
+                reversed.append(" ");
+            }
+        }
+
+        return reversed.toString();
+    }
 }
