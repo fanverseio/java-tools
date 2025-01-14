@@ -132,4 +132,76 @@ public class StringUtilsTest {
         assertEquals("",
                 StringUtils.reverseSentenceWithPunctuation(""));
     }
+
+    @Test
+    public void testCountOccurences() {
+        // Test case 1: Basic input with multiple occurrences
+        assertEquals(3, StringUtils.countOccurences("ababab", "ab"));
+
+        // Test case 2: Input with overlapping patterns
+        assertEquals(2, StringUtils.countOccurences("aaaa", "aa"));
+
+        // Test case 3: Input with no occurrences
+        assertEquals(0, StringUtils.countOccurences("abcdef", "gh"));
+
+        // Test case 4: Input with pattern at the start and end
+        assertEquals(2, StringUtils.countOccurences("abcabc", "abc"));
+
+        // Test case 5: Empty input string
+        assertEquals(0, StringUtils.countOccurences("", "pattern"));
+
+        // Test case 6: Empty pattern string
+        assertEquals(0, StringUtils.countOccurences("input", ""));
+
+        // Test case 7: Null input string
+        assertEquals(0, StringUtils.countOccurences(null, "pattern"));
+
+        // Test case 8: Null pattern string
+        assertEquals(0, StringUtils.countOccurences("input", null));
+
+        // Test case 9: Both input and pattern are null
+        assertEquals(0, StringUtils.countOccurences(null, null));
+
+        // Test case 10: Pattern longer than input
+        assertEquals(0, StringUtils.countOccurences("short", "longerpattern"));
+    }
+
+    @Test
+    public void testPasswordChecker() {
+        // Test case 1: Password meets all criteria
+        assertTrue(StringUtils.passwordChecker("Password1!", true, true, true, 8));
+
+        // Test case 2: Password meets length but missing lowercase
+        assertFalse(StringUtils.passwordChecker("PASSWORD1!", true, true, true, 8));
+
+        // Test case 3: Password meets length but missing uppercase
+        assertFalse(StringUtils.passwordChecker("password1!", true, true, true, 8));
+
+        // Test case 4: Password meets length but missing symbol
+        assertFalse(StringUtils.passwordChecker("Password1", true, true, true, 8));
+
+        // Test case 5: Password meets length but missing all criteria
+        assertFalse(StringUtils.passwordChecker("password", true, true, true, 8));
+
+        // Test case 6: Password meets all criteria with minimum length
+        assertTrue(StringUtils.passwordChecker("P1!", false, true, true, 3));
+
+        // Test case 7: Password shorter than minimum length
+        assertFalse(StringUtils.passwordChecker("P1!", true, true, true, 4));
+
+        // Test case 8: Password meets criteria but no symbol required
+        assertTrue(StringUtils.passwordChecker("Password1", true, true, false, 8));
+
+        // Test case 9: Password meets criteria but no uppercase required
+        assertTrue(StringUtils.passwordChecker("password1!", true, false, true, 8));
+
+        // Test case 10: Password meets criteria but no lowercase required
+        assertTrue(StringUtils.passwordChecker("PASSWORD1!", false, true, true, 8));
+
+        // Test case 11: Null input
+        assertFalse(StringUtils.passwordChecker(null, true, true, true, 8));
+
+        // Test case 12: Empty input
+        assertFalse(StringUtils.passwordChecker("", true, true, true, 8));
+    }
 }

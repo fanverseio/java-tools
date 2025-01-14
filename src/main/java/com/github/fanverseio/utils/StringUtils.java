@@ -8,7 +8,6 @@ public class StringUtils {
 
     /**
      * Check if a string a palindrome.
-     * 
      * @param input the string to check.
      * @return true if the string is palindrome, false otherwise
      */
@@ -22,7 +21,6 @@ public class StringUtils {
 
     /**
      * Length of Substring without repeating characters.
-     * 
      * @param input the string to check.
      * @return integer of the length of the substring
      */
@@ -55,7 +53,6 @@ public class StringUtils {
 
     /**
      * Increasing decreasing String.
-     * 
      * @param input the string to check.
      * @return string of the incresing - decreasing order
      */
@@ -115,7 +112,6 @@ public class StringUtils {
 
     /**
      * camelCase to snake_case conversion.
-     * 
      * @param input the camelCase string.
      * @return string of the same string in snake_case
      */
@@ -151,7 +147,6 @@ public class StringUtils {
 
     /**
      * snake_case to camelCase conversion.
-     * 
      * @param input is the snake_case string.
      * @return string in camelCase.
      */
@@ -216,4 +211,68 @@ public class StringUtils {
 
         return reversed.toString();
     }
+
+    /**
+     * Count occurances of a pattern in an input text
+     * @param input string - the user input
+     * @param pattern string - what the user want to count
+     * @return int how many times is has occured.
+     */
+
+    public static int countOccurences(String input, String pattern){
+        int counts = 0;
+
+        if (input == null || pattern == null || input.isEmpty() || pattern.isEmpty()) {
+            return 0;
+        }
+
+        int index = 0;
+        while ((index = input.indexOf(pattern, index)) != -1) {
+            counts++;
+            index += pattern.length();
+        }
+
+
+        return counts;
+    }
+
+    /**
+     * Password checkers - ensure there's at least one lowercase, one uppercase, one symbol and length
+     * @param input String - user input password
+     * @param lowerCase boolean -  at least one lowercase character
+     * @param upperCase boolean - at least one uppercase character
+     * @param symbol boolean - at least one special symbol
+     * @param length int - minimum length or longer
+     * @return boolean whether the input string meets all the criteria
+     */
+
+    public static boolean passwordChecker (String input, boolean lowerCase, boolean upperCase, boolean symbol, int length){
+        if (input == null || input.length() < length) {
+            return false;
+        }
+
+        boolean hasLowerCase = !lowerCase;
+        boolean hasUpperCase = !upperCase;
+        boolean hasSymbol = !symbol;
+
+        for (char c : input.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                hasLowerCase = true;
+            } else if (Character.isUpperCase(c)) {
+                hasUpperCase = true;
+            } else if (!Character.isLetterOrDigit(c)) {
+                hasSymbol = true;
+            }
+
+            if (hasLowerCase && hasUpperCase && hasSymbol) {
+                return true;
+            }
+        }
+
+        return hasLowerCase && hasUpperCase && hasSymbol;
+
+    }
+
+
+
 }
